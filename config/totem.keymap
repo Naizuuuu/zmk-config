@@ -34,10 +34,12 @@
             label = "HOMEROW_MODS";
             #binding-cells = <2>;
             flavor = "tap-preferred";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <125>;
+            tapping-term-ms = <150>;
             global-quick-tap;
             bindings = <&kp>, <&kp>;
+
+            hold-while-undecided;
+            hold-trigger-on-release;
         };
 
         hml: hml {
@@ -46,12 +48,11 @@
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
-            tapping-term-ms = <280>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
-            flavor = "balanced";
+            tapping-term-ms = <150>;
+            flavor = "hold-preferred";
             hold-trigger-on-release;
             hold-trigger-key-positions = <20 0 1 2 3 4 10 11 12 13 14 25 24 23 22 21 32 33 34 35 36 37>;
+            hold-while-undecided;
         };
 
         hmr: hmr {
@@ -60,26 +61,81 @@
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
-            tapping-term-ms = <280>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
-            flavor = "balanced";
+            tapping-term-ms = <150>;
+            flavor = "hold-preferred";
             hold-trigger-on-release;
             hold-trigger-key-positions = <32 33 34 35 36 37 15 5 26 27 16 7 6 17 28 8 18 29 9 19 30 31>;
+            hold-while-undecided;
+        };
+
+        hmcr: hmcr {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HMCR";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "hold-preferred";
+            hold-trigger-on-release;
+            hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 25 24 23 22 21 32 33 34 35 36 37 5>;
+            hold-while-undecided;
         };
     };
 
     combos {
         compatible = "zmk,combos";
 
-        to_base {
-            bindings = <&to 0>;
-            key-positions = <13 16>;
+        refresh {
+            bindings = <&kp F5>;
+            key-positions = <3 4>;
         };
 
-        to_cyr {
-            bindings = <&to 4>;
-            key-positions = <15 14>;
+        xcape {
+            bindings = <&kp ESCAPE>;
+            key-positions = <4 5>;
+        };
+
+        insertion {
+            bindings = <&kp F6>;
+            key-positions = <5 6>;
+        };
+
+        FF4 {
+            bindings = <&kp F4>;
+            key-positions = <14 15>;
+        };
+
+        FF2 {
+            bindings = <&kp F2>;
+            key-positions = <25 26>;
+        };
+    };
+
+    macros {
+        mypw: mypw {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LS(I) &kp O &kp A &kp N &kp N3 &kp N2 &kp N3 &kp N1 &kp N5 &kp RBKT>,
+                <&macro_press>,
+                <&kp ENTER>,
+                <&macro_release>;
+
+            label = "MYPW";
+        };
+
+        misispw: misispw {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LS(J) &kp A &kp P &kp A &kp N &kp N &kp O &kp V &kp E &kp M &kp B &kp E &kp R &kp N2 &kp N0 &kp N2 &kp N6 &kp STAR>,
+                <&macro_press>,
+                <&kp ENTER>,
+                <&macro_release>;
+
+            label = "MISISPW";
         };
     };
 
@@ -89,39 +145,39 @@
         Base {
             label = "Base";
             bindings = <
-       &kp Q         &kp W        &kp E        &kp R         &kp T    &kp Y  &kp U         &kp I            &kp O        &kp P
-       &hml LSHFT A  &hml LALT S  &hml LGUI D  &hml LCTRL F  &kp G    &kp H  &hmr RCTRL J  &hmr RGUI K      &hmr RALT L  &hmr RSHFT SQT
-&none  &kp Z         &kp X        &kp C        &kp V         &kp B    &kp N  &kp M         &kp COMMA        &kp DOT      &kp SLASH       &none
-                                  &lt 1 ESC    &lt 1 SPACE   &none    &none  &lt 2 SPACE   &lt 2 BACKSPACE
+                 &kp Q  &kp W  &kp E         &kp R         &kp T              &kp Y        &kp U         &kp I          &kp O    &kp P
+                 &kp A  &kp S  &kp D         &hml LCTRL F  &kp G              &kp H        &hmr RCTRL J  &kp K          &kp L    &kp APOS
+&hmcr LCTRL TAB  &kp Z  &kp X  &kp C         &kp V         &kp B              &kp N        &kp M         &kp COMMA      &kp DOT  &kp SLASH  &kp ENTER
+                               &kp LEFT_ALT  &lt 3 SPACE   &lt 1 BACKSPACE    &lt 2 SPACE  &lt 2 SPACE   &kp RIGHT_GUI
             >;
         };
 
         Sym {
             label = "Sym";
             bindings = <
-        &kp EXCLAMATION  &kp AT             &kp POUND              &kp SEMICOLON  &kp LBRC    &kp EQUAL      &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp N0
-        &kp LEFT_SHIFT   &kp GRAVE          &trans                 &kp COLON      &kp LBKT    &kp MINUS      &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &trans
-&trans  &kp RIGHT_BRACE  &kp RIGHT_BRACKET  &kp RIGHT_PARENTHESIS  &kp TILDE      &kp LPAR    &kp BACKSLASH  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &trans  &trans
-                                            &trans                 &kp ENTER      &trans      &trans         &kp TAB       &trans
+        &kp EXCLAMATION  &kp AT             &kp POUND              &kp SEMICOLON  &kp LBRC    &kp RIGHT_BRACE        &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp ASTERISK
+        &kp LEFT_SHIFT   &kp GRAVE          &trans                 &trans         &kp LBKT    &kp RIGHT_BRACKET      &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp MINUS
+&trans  &kp RIGHT_BRACE  &kp RIGHT_BRACKET  &kp RIGHT_PARENTHESIS  &kp TILDE      &kp LPAR    &kp RIGHT_PARENTHESIS  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PLUS      &trans
+                                            &trans                 &trans         &trans      &trans                 &kp SLASH        &kp NUMBER_0
             >;
         };
 
         Nav {
             label = "Nav";
             bindings = <
-        &kp EXCL  &kp AT  &kp HASH  &kp DOLLAR  &kp PERCENT    &kp CARET  &kp AMPS  &kp STAR  &kp DEL    &trans
-        &trans    &trans  &trans    &trans      &trans         &kp LEFT   &kp DOWN  &kp UP    &kp RIGHT  &trans
-&trans  &trans    &trans  &trans    &trans      &trans         &trans     &trans    &trans    &trans     &trans  &trans
-                          &trans    &kp ENTER   &trans         &trans     &kp TAB   &trans
+        &kp EXCL  &kp AT  &kp HASH  &kp DOLLAR  &kp PERCENT    &kp CARET      &kp AMPS        &kp STAR        &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS
+        &trans    &trans  &trans    &trans      &trans         &kp PAGE_UP    &kp LEFT_ARROW  &kp UP          &kp RIGHT             &trans
+&trans  &trans    &trans  &trans    &trans      &trans         &kp PAGE_DOWN  &kp HOME        &kp DOWN_ARROW  &kp END               &trans                 &trans
+                          &trans    &trans      &trans         &trans         &trans          &trans
             >;
         };
 
         Tune {
             bindings = <
-             &bt BT_CLR  &none  &none   &none   &bt BT_SEL 0    &kp C_VOL_UP  &none       &none             &none       &none
-             &none       &none  &none   &none   &bt BT_SEL 1    &kp K_MUTE    &kp K_PREV  &kp K_PLAY_PAUSE  &kp K_NEXT  &none
-&bootloader  &none       &none  &none   &none   &bt BT_SEL 2    &kp C_VOL_DN  &none       &none             &none       &none  &bootloader
-                                &trans  &trans  &trans          &trans        &trans      &trans
+        &bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &kp PRINTSCREEN    &kp F1        &kp F2  &kp F3  &kp F4  &kp F5
+        &none       &none         &none         &trans        &kp SCROLLLOCK     &kp F6        &kp F7  &kp F8  &kp F9  &kp F10
+&trans  &none       &none         &none         &none         &bt BT_SEL 2       &kp C_VOL_DN  &none   &none   &none   &none    &trans
+                                  &trans        &trans        &trans             &trans        &trans  &trans
             >;
 
             label = "Tune";
